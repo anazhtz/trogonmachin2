@@ -97,32 +97,34 @@ class _FlashCardScreenState extends State<FlashCardScreen> {
     );
   }
 
-  Widget _buildTitleWithProgress() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          'Everyday Phrases',
-          style: GoogleFonts.poppins(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-          ),
+Widget _buildTitleWithProgress() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        'Everyday Phrases',
+        style: GoogleFonts.poppins(
+          fontSize: 20,
+          fontWeight: FontWeight.w600,
         ),
-        const CircularPercentIndicator(
-          radius: 60.0,
-          lineWidth: 12.0,
-          percent: 5 / 15,
-          center: Text("1/5"),
-          progressColor: Colors.purple,
-        ),
-      ],
-    );
-  }
+      ),
+      CircularPercentIndicator(
+        radius: 60.0,
+        lineWidth: 12.0,
+        percent: (_currentPage + 1) / 5,
+        center: Text("${_currentPage + 1}/5"),
+        progressColor: Colors.purple,
+      ),
+    ],
+  );
+}
+
 
   Widget _buildFlashCard() {
     final flashCards = [
       {'title': 'Obvio', 'subtitle': 'ob.wi.o', 'meaning': 'Obviously'},
       {'title': 'Hello', 'subtitle': 'he.lo', 'meaning': 'A greeting'},
+      {'title': 'World', 'subtitle': 'wo.rld', 'meaning': 'The earth'},
       {'title': 'World', 'subtitle': 'wo.rld', 'meaning': 'The earth'},
       {'title': 'World', 'subtitle': 'wo.rld', 'meaning': 'The earth'},
     ];
@@ -221,7 +223,8 @@ class _FlashCardScreenState extends State<FlashCardScreen> {
         label,
         style: GoogleFonts.poppins(
           fontSize: 16,
-          color: Colors.purple,
+          color: Colors.black,
+          fontWeight: FontWeight.w600
         ),
       ),
     );
