@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:trogonmachin2/widgets/circular_prograss_indicator.dart';
 import 'package:trogonmachin2/widgets/customshape_appbar.dart';
+import 'package:flip_card/flip_card.dart';
 
-class FlashCardScreen extends StatelessWidget {
+class FlashCardScreen extends StatefulWidget {
   const FlashCardScreen({super.key});
+
+  @override
+  _FlashCardScreenState createState() => _FlashCardScreenState();
+}
+
+class _FlashCardScreenState extends State<FlashCardScreen> {
+  final PageController _pageController = PageController(viewportFraction: 0.8);
+  int _currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -65,18 +74,26 @@ class FlashCardScreen extends StatelessWidget {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 20),
-            _buildTitleWithProgress(),
-            const SizedBox(height: 20),
-            _buildFlashCard(),
-            const Spacer(),
-            _buildBottomNavigation(),
-          ],
-        ),
-      ),
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.all(30.0),
+                child: _buildTitleWithProgress(),
+              ),
+              const SizedBox(height: 20),
+              _buildFlashCard(),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _buildOutlinedButton('Previous'),
+                  _buildOutlinedButton('Next'),
+                ],
+              ),
+            ],
+          )),
     );
   }
 
@@ -92,10 +109,10 @@ class FlashCardScreen extends StatelessWidget {
           ),
         ),
         const CircularPercentIndicator(
-          radius: 40.0,
-          lineWidth: 8.0,
+          radius: 60.0,
+          lineWidth: 12.0,
           percent: 5 / 15,
-          center: Text("5/15"),
+          center: Text("1/5"),
           progressColor: Colors.purple,
         ),
       ],
@@ -103,8 +120,40 @@ class FlashCardScreen extends StatelessWidget {
   }
 
   Widget _buildFlashCard() {
-    return Container(
+    final flashCards = [
+      {'title': 'Obvio', 'subtitle': 'ob.wi.o', 'meaning': 'Obviously'},
+      {'title': 'Hello', 'subtitle': 'he.lo', 'meaning': 'A greeting'},
+      {'title': 'World', 'subtitle': 'wo.rld', 'meaning': 'The earth'},
+      {'title': 'World', 'subtitle': 'wo.rld', 'meaning': 'The earth'},
+    ];
+
+    return SizedBox(
       height: 300,
+      child: PageView.builder(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _currentPage = index;
+          });
+        },
+        itemCount: flashCards.length,
+        itemBuilder: (context, index) {
+          final card = flashCards[index];
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: FlipCard(
+              direction: FlipDirection.HORIZONTAL, 
+              front: _buildCardSide(card['title']!, card['subtitle']!),
+              back: _buildCardSide(card['meaning']!, ''),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildCardSide(String title, String subtitle) {
+    return Container(
       decoration: BoxDecoration(
         color: Colors.purple,
         borderRadius: BorderRadius.circular(20),
@@ -114,7 +163,7 @@ class FlashCardScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Obvio',
+              title,
               style: GoogleFonts.poppins(
                 fontSize: 40,
                 color: Colors.white,
@@ -122,13 +171,14 @@ class FlashCardScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            Text(
-              'ob.wi.o',
-              style: GoogleFonts.poppins(
-                fontSize: 18,
-                color: Colors.white,
+            if (subtitle.isNotEmpty)
+              Text(
+                subtitle,
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  color: Colors.white,
+                ),
               ),
-            ),
             const SizedBox(height: 20),
             const CircleAvatar(
               backgroundColor: Colors.white,
@@ -141,19 +191,25 @@ class FlashCardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNavigation() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _buildOutlinedButton('Previous'),
-        _buildOutlinedButton('Next'),
-      ],
-    );
-  }
-
   Widget _buildOutlinedButton(String label) {
     return OutlinedButton(
-      onPressed: () {},
+      onPressed: () {
+        if (label == 'Next') {
+          if (_currentPage < 3) {
+            _pageController.nextPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          }
+        } else if (label == 'Previous') {
+          if (_currentPage > 0) {
+            _pageController.previousPage(
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          }
+        }
+      },
       style: OutlinedButton.styleFrom(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         shape: RoundedRectangleBorder(
@@ -171,6 +227,3 @@ class FlashCardScreen extends StatelessWidget {
     );
   }
 }
-
-
-
