@@ -98,6 +98,30 @@ class _ChatScreenState extends State<ChatScreen> {
                   message: "Lorem Ipsum Is \nSimply Dummy",
                   context: context,
                 ),
+                 _buildReceiverBubble(
+                  message: "Lorem Ipsum Is \nSimply Dummy Text",
+                  context: context,
+                ),
+                _buildSenderBubble(
+                  message: "Lorem Ipsum Is \nSimply Dummy",
+                  context: context,
+                ),
+                 _buildReceiverBubble(
+                  message: "Lorem Ipsum Is \nSimply Dummy Text",
+                  context: context,
+                ),
+                _buildSenderBubble(
+                  message: "Lorem Ipsum Is \nSimply Dummy",
+                  context: context,
+                ),
+                 _buildReceiverBubble(
+                  message: "Lorem Ipsum Is \nSimply Dummy Text",
+                  context: context,
+                ),
+                _buildSenderBubble(
+                  message: "Lorem Ipsum Is \nSimply Dummy",
+                  context: context,
+                ),
               ],
             ),
           ),
