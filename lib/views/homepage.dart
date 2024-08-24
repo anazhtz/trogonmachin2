@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:trogonmachin2/widgets/circular_prograss_indicator.dart';
-import 'package:trogonmachin2/widgets/customshape_appbar.dart';
+import 'package:trogonmachin2/widgets/1stwork/circular_prograss_indicator.dart';
+import 'package:trogonmachin2/widgets/1stwork/customshape_appbar.dart';
 import 'package:flip_card/flip_card.dart';
 
 class FlashCardScreen extends StatefulWidget {
