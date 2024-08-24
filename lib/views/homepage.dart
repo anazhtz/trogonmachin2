@@ -46,14 +46,17 @@ class _FlashCardScreenState extends State<FlashCardScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          padding: const EdgeInsets.all(5.0),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.white, width: 1),
+                        Align(
+                          alignment: Alignment.center, 
+                          child: Container(
+                            padding: const EdgeInsets.all(5.0),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(color: Colors.white, width: 1),
+                            ),
+                            child: const Icon(Icons.arrow_back_ios,
+                                color: Colors.white),
                           ),
-                          child: const Icon(Icons.arrow_back_ios,
-                              color: Colors.white),
                         ),
                         Text(
                           'Flash Card',
@@ -63,7 +66,7 @@ class _FlashCardScreenState extends State<FlashCardScreen> {
                             fontWeight: FontWeight.w600,
                           ),
                         ),
-                        const SizedBox(width: 24),
+                        const SizedBox(width: 20),
                       ],
                     ),
                   ),
@@ -74,12 +77,11 @@ class _FlashCardScreenState extends State<FlashCardScreen> {
         ),
       ),
       body: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.only(left: 15, right: 16, bottom: 50),
           child: Column(
             children: [
-              const SizedBox(height: 20),
               Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.all(25.0),
                 child: _buildTitleWithProgress(),
               ),
               const SizedBox(height: 20),
@@ -97,28 +99,27 @@ class _FlashCardScreenState extends State<FlashCardScreen> {
     );
   }
 
-Widget _buildTitleWithProgress() {
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text(
-        'Everyday Phrases',
-        style: GoogleFonts.poppins(
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
+  Widget _buildTitleWithProgress() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Everyday Phrases',
+          style: GoogleFonts.poppins(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
         ),
-      ),
-      CircularPercentIndicator(
-        radius: 60.0,
-        lineWidth: 12.0,
-        percent: (_currentPage + 1) / 5,
-        center: Text("${_currentPage + 1}/5"),
-        progressColor: Colors.purple,
-      ),
-    ],
-  );
-}
-
+        CircularPercentIndicator(
+          radius: 60.0,
+          lineWidth: 12.0,
+          percent: (_currentPage + 1) / 5,
+          center: Text("${_currentPage + 1}/5"),
+          progressColor: Colors.purple,
+        ),
+      ],
+    );
+  }
 
   Widget _buildFlashCard() {
     final flashCards = [
@@ -144,7 +145,7 @@ Widget _buildTitleWithProgress() {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: FlipCard(
-              direction: FlipDirection.HORIZONTAL, 
+              direction: FlipDirection.HORIZONTAL,
               front: _buildCardSide(card['title']!, card['subtitle']!),
               back: _buildCardSide(card['meaning']!, ''),
             ),
@@ -157,7 +158,14 @@ Widget _buildTitleWithProgress() {
   Widget _buildCardSide(String title, String subtitle) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.purple,
+        gradient: const LinearGradient(
+          colors: [
+            Color.fromARGB(255, 170, 58, 222),
+            Color.fromARGB(255, 173, 50, 210)
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Center(
@@ -182,11 +190,14 @@ Widget _buildTitleWithProgress() {
                 ),
               ),
             const SizedBox(height: 20),
-            const CircleAvatar(
-              backgroundColor: Colors.white,
-              radius: 30,
-              child: Icon(Icons.arrow_forward_ios, color: Colors.purple),
-            ),
+            Container(
+              height: 60,
+              width: 70,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.white
+              ),
+              child: Icon(Icons.arrow_forward_ios, color: Colors.purple)),
           ],
         ),
       ),
@@ -222,10 +233,7 @@ Widget _buildTitleWithProgress() {
       child: Text(
         label,
         style: GoogleFonts.poppins(
-          fontSize: 16,
-          color: Colors.black,
-          fontWeight: FontWeight.w600
-        ),
+            fontSize: 16, color: Colors.black, fontWeight: FontWeight.w600),
       ),
     );
   }
